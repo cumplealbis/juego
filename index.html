@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+  <meta name="description" content="Aventura de cumpleaños con pistas NFC, acertijos y capítulos desbloqueables.">
+  <meta name="theme-color" content="#fff7f0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Una aventura para ti</title>
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#chapters">Saltar a los capítulos</a>
+
+  <main class="main-container">
+    <header class="hero">
+      <p class="eyebrow">Cumpleaños · NFC · pistas escondidas</p>
+      <h1 id="adventure-title">Una aventura para ti</h1>
+      <p id="adventure-subtitle" class="hero-subtitle">
+        Encuentra las pistas, descubre las contraseñas y desbloquea cada sorpresa.
+      </p>
+
+      <section class="progress-panel" aria-labelledby="progress-title">
+        <div class="progress-copy">
+          <h2 id="progress-title">Progreso</h2>
+          <p id="progress-text">0 de 4 capítulos completados</p>
+        </div>
+        <div
+          id="progressbar"
+          class="progressbar"
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="4"
+          aria-valuenow="0"
+          aria-label="Progreso de la aventura"
+        >
+          <span id="progressbar-fill"></span>
+        </div>
+      </section>
+    </header>
+
+    <section class="intro-section" aria-labelledby="intro-title">
+      <h2 id="intro-title">Cómo funciona</h2>
+      <p>
+        <!-- PERSONALIZAR: adaptar la introducción al tono real de la aventura. -->
+        Hay varias pegatinas NFC escondidas. Algunas contienen acertijos, otras
+        pistas pequeñas, y todas forman parte de la misma historia.
+      </p>
+      <p>
+        Cuando creas tener una respuesta, vuelve a esta página principal,
+        introdúcela en el capítulo disponible y desbloquea la siguiente parte.
+        El progreso se guarda automáticamente en este teléfono.
+      </p>
+    </section>
+
+    <section id="chapters" class="chapters-section" aria-labelledby="chapters-title">
+      <div class="section-heading">
+        <p class="section-kicker">Capítulos</p>
+        <h2 id="chapters-title">Desbloquea la sorpresa paso a paso</h2>
+      </div>
+      <div id="chapters-list" class="chapters-list" aria-live="polite"></div>
+    </section>
+
+    <section class="reset-section" aria-labelledby="testing-title">
+      <h2 id="testing-title">Pruebas</h2>
+      <p>
+        Usa este botón solo mientras preparas la experiencia o si quieres volver
+        a empezar desde cero.
+      </p>
+      <button id="reset-button" class="button button-secondary" type="button">
+        Reiniciar aventura
+      </button>
+    </section>
+  </main>
+
+  <script src="./js/config.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>
