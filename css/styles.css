@@ -88,6 +88,17 @@ a:hover {
   transform: translateY(0);
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+}
+
 .main-container {
   width: min(100% - 32px, 720px);
   margin-inline: auto;
@@ -444,11 +455,56 @@ h3 {
 }
 
 .reward-block {
+  position: relative;
+  overflow: hidden;
   margin-top: 14px;
   padding: 16px;
   border: 1px dashed rgba(159, 65, 87, 0.28);
   border-radius: var(--border-radius-small);
   background: rgba(255, 247, 240, 0.72);
+}
+
+.reward-block.reward-reveal {
+  animation: reward-reveal 2400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.reward-block.reward-reveal::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 36%,
+    rgba(255, 255, 255, 0.78) 48%,
+    rgba(255, 236, 203, 0.58) 54%,
+    transparent 68%,
+    transparent 100%
+  );
+  transform: translateX(-130%);
+  animation: reward-glint 2100ms ease-out 220ms both;
+}
+
+.reward-block.reward-reveal .reward-label,
+.reward-block.reward-reveal .reward-plan-copy,
+.reward-block.reward-reveal .reward-image-frame,
+.reward-block.reward-reveal .reward-placeholder {
+  opacity: 0;
+  transform: translateY(18px) scale(0.98);
+  filter: blur(14px);
+  clip-path: inset(0 0 18% 0 round var(--border-radius-small));
+  will-change: opacity, transform, filter, clip-path;
+  animation: reward-content-reveal 1900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.reward-block.reward-reveal .reward-image-frame {
+  animation-delay: 520ms;
+}
+
+.reward-block.reward-reveal .reward-image-frame:nth-of-type(2),
+.reward-block.reward-reveal .reward-placeholder {
+  animation-delay: 780ms;
 }
 
 .reward-block p {
@@ -468,6 +524,17 @@ h3 {
 .reward-gallery {
   display: grid;
   gap: 16px;
+}
+
+.reward-audio {
+  display: grid;
+  gap: 14px;
+}
+
+.reward-audio audio {
+  display: block;
+  width: 100%;
+  min-height: 48px;
 }
 
 .reward-image-frame {
@@ -570,6 +637,89 @@ h3 {
   background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
 }
 
+.rebus-card {
+  padding-top: 22px;
+}
+
+.rebus-grid {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.rebus-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(234, 214, 204, 0.95);
+  border-radius: var(--border-radius-small);
+  background: #fff;
+  box-shadow: 0 12px 24px rgba(83, 52, 43, 0.1);
+}
+
+.date-hunt-card {
+  padding-top: 22px;
+}
+
+.date-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.date-link {
+  display: grid;
+  min-height: 48px;
+  place-items: center;
+  padding: 10px 8px;
+  border: 1px solid rgba(234, 214, 204, 0.95);
+  color: var(--color-primary-dark);
+  font-size: 1rem;
+  font-weight: 850;
+  text-decoration: none;
+  border-radius: var(--border-radius-small);
+  background: rgba(255, 250, 246, 0.92);
+  box-shadow: 0 8px 18px rgba(83, 52, 43, 0.07);
+  transition:
+    transform 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    background 150ms ease;
+}
+
+.date-link:hover {
+  border-color: rgba(159, 65, 87, 0.36);
+  background: #fff;
+  box-shadow: 0 10px 22px rgba(83, 52, 43, 0.1);
+  transform: translateY(-1px);
+}
+
+.date-link:active {
+  transform: translateY(0);
+}
+
+.location-clue-card {
+  padding-top: 22px;
+}
+
+.location-list {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.location-list p {
+  margin: 0;
+  padding: 14px;
+  border: 1px solid rgba(234, 214, 204, 0.95);
+  color: var(--color-text);
+  font-weight: 750;
+  border-radius: var(--border-radius-small);
+  background: rgba(255, 250, 246, 0.92);
+  box-shadow: 0 8px 18px rgba(83, 52, 43, 0.07);
+}
+
 .hint-visual {
   display: grid;
   width: 112px;
@@ -662,6 +812,98 @@ h3 {
   }
 }
 
+@keyframes reward-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(26px) scale(0.96);
+    box-shadow: 0 0 0 rgba(159, 65, 87, 0);
+    border-color: rgba(159, 65, 87, 0.12);
+    filter: saturate(0.84) brightness(0.98);
+  }
+
+  28% {
+    opacity: 1;
+    transform: translateY(10px) scale(0.985);
+    box-shadow: 0 18px 48px rgba(159, 65, 87, 0.2);
+    border-color: rgba(159, 65, 87, 0.52);
+    filter: saturate(0.92) brightness(1);
+  }
+
+  62% {
+    opacity: 1;
+    transform: translateY(0) scale(1.01);
+    box-shadow: 0 22px 52px rgba(159, 65, 87, 0.18);
+    border-color: rgba(200, 138, 74, 0.62);
+    filter: saturate(1.06) brightness(1.02);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    box-shadow: 0 0 0 rgba(159, 65, 87, 0);
+    border-color: rgba(159, 65, 87, 0.28);
+    filter: saturate(1) brightness(1);
+  }
+}
+
+@keyframes reward-content-reveal {
+  0% {
+    opacity: 0.02;
+    transform: translateY(18px) scale(0.98);
+    filter: blur(14px);
+    clip-path: inset(0 0 18% 0 round var(--border-radius-small));
+  }
+
+  28% {
+    opacity: 0.22;
+    transform: translateY(14px) scale(0.985);
+    filter: blur(11px);
+    clip-path: inset(0 0 13% 0 round var(--border-radius-small));
+  }
+
+  54% {
+    opacity: 0.62;
+    transform: translateY(8px) scale(0.992);
+    filter: blur(6px);
+    clip-path: inset(0 0 7% 0 round var(--border-radius-small));
+  }
+
+  78% {
+    opacity: 0.92;
+    transform: translateY(2px) scale(1);
+    filter: blur(2px);
+    clip-path: inset(0 0 1.5% 0 round var(--border-radius-small));
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+    clip-path: inset(0 0 0 0 round var(--border-radius-small));
+  }
+}
+
+@keyframes reward-glint {
+  0% {
+    opacity: 0;
+    transform: translateX(-130%);
+  }
+
+  30% {
+    opacity: 0.85;
+  }
+
+  76% {
+    opacity: 0.65;
+    transform: translateX(130%);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(130%);
+  }
+}
+
 @media (min-width: 560px) {
   .main-container,
   .hint-shell {
@@ -703,6 +945,14 @@ h3 {
   .reward-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
+  }
+
+  .rebus-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .date-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 

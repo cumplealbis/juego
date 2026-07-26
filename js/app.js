@@ -102,6 +102,32 @@
     });
   }
 
+  function isSecretChapter(chapter) {
+    return chapter.isSecret === true;
+  }
+
+  function areRegularChaptersCompleted() {
+    return getSortedChapters()
+      .filter(function (chapter) {
+        return !isSecretChapter(chapter);
+      })
+      .every(function (chapter) {
+        return isChapterCompleted(chapter.id);
+      });
+  }
+
+  function shouldShowChapter(chapter) {
+    if (!isSecretChapter(chapter)) {
+      return true;
+    }
+
+    return areRegularChaptersCompleted();
+  }
+
+  function getVisibleChapters() {
+    return getSortedChapters().filter(shouldShowChapter);
+  }
+
   function isChapterCompleted(chapterId) {
     return progress.completedChapters.indexOf(chapterId) !== -1;
   }
@@ -115,9 +141,14 @@
   function isChapterUnlocked(chapterId) {
     var chapters = getSortedChapters();
     var chapterIndex = getChapterIndex(chapterId);
+    var chapter = chapters[chapterIndex];
 
     if (chapterIndex === -1) {
       return false;
+    }
+
+    if (chapter && isSecretChapter(chapter)) {
+      return areRegularChaptersCompleted();
     }
 
     if (chapterIndex === 0) {
@@ -145,6 +176,7 @@
 
     saveProgress();
     renderState();
+    animateRevealedReward(chapterId);
     scrollToRevealedReward(chapterId);
   }
 
@@ -161,7 +193,7 @@
   }
 
   function renderProgress() {
-    var chapters = getSortedChapters();
+    var chapters = getVisibleChapters();
     var completedCount = chapters.filter(function (chapter) {
       return isChapterCompleted(chapter.id);
     }).length;
@@ -238,7 +270,7 @@
       '">' +
       '<div class="chapter-topline">' +
       createStatusBadge("locked") +
-      '<span class="chapter-number">Capítulo ' +
+      '<span class="chapter-number">Nivel ' +
       chapter.order +
       "</span>" +
       "</div>" +
@@ -259,7 +291,7 @@
       '">' +
       '<div class="chapter-topline">' +
       createStatusBadge("available") +
-      '<span class="chapter-number">Capítulo ' +
+      '<span class="chapter-number">Nivel ' +
       chapter.order +
       "</span>" +
       "</div>" +
@@ -301,7 +333,7 @@
       '">' +
       '<div class="chapter-topline">' +
       createStatusBadge("completed") +
-      '<span class="chapter-number">Capítulo ' +
+      '<span class="chapter-number">Nivel ' +
       chapter.order +
       "</span>" +
       "</div>" +
@@ -331,7 +363,7 @@
       return;
     }
 
-    chaptersList.innerHTML = getSortedChapters()
+    chaptersList.innerHTML = getVisibleChapters()
       .map(function (chapter) {
         var state = getChapterState(chapter);
 
@@ -426,6 +458,22 @@
     if (meter) {
       meter.setAttribute("aria-hidden", "true");
     }
+  }
+
+  function animateRevealedReward(completedChapterId) {
+    var completedChapter = document.getElementById(completedChapterId);
+    var reward = completedChapter
+      ? completedChapter.querySelector(".reward-block")
+      : null;
+
+    if (!reward) {
+      return;
+    }
+
+    reward.classList.remove("reward-reveal");
+    window.requestAnimationFrame(function () {
+      reward.classList.add("reward-reveal");
+    });
   }
 
   function scrollToRevealedReward(completedChapterId) {
@@ -531,10 +579,12 @@
 
     backButtons.forEach(function (button) {
       button.addEventListener("click", function () {
+        var fallbackHref = button.getAttribute("data-fallback-href") || "../index.html";
+
         if (window.history.length > 1) {
           window.history.back();
         } else {
-          window.location.href = "../index.html";
+          window.location.href = fallbackHref;
         }
       });
     });
