@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Karlis Invaders</title>
+    <link rel="stylesheet" href="./css/space-invaders.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="game-header">
+        <a class="back-link" href="./index.html">← volver</a>
+        <p class="eyebrow">NIVEL SECRETO · KARLIS INVADERS</p>
+        <h1>¡Defiende el regalo!</h1>
+        <p class="intro">
+          Mata a todos los buomanes y gaturros para desbloquear tu regalo.
+        </p>
+      </header>
+      <section class="game-card" aria-label="Juego Karlis Invaders">
+        <div class="hud" aria-live="polite">
+          <span>PUNTOS <strong id="score">0</strong><small>/ 100</small></span
+          ><span>VIDAS <strong id="lives">♥♥♥</strong></span>
+        </div>
+        <div class="progress"><span id="progress"></span></div>
+        <div class="canvas-wrap">
+          <canvas id="game" aria-label="Partida de Karlis Invaders"></canvas>
+          <div class="overlay" id="overlay">
+            <div class="overlay-panel">
+              <span class="pixel-star">✦</span>
+              <h2 id="overlay-title">Karlis Invaders</h2>
+              <p id="overlay-copy">
+                Desliza para moverte. Tus disparos salen solos.
+              </p>
+              <button class="play-button" id="play-button" type="button">
+                Empezar partida
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="controls">
+          <button
+            class="control-button"
+            id="left-button"
+            type="button"
+            aria-label="Mover a la izquierda"
+          >
+            ←</button
+          ><span>DESLIZA · DISPARO AUTO</span
+          ><button
+            class="control-button"
+            id="right-button"
+            type="button"
+            aria-label="Mover a la derecha"
+          >
+            →
+          </button>
+        </div>
+      </section>
+      <section class="win-card" id="win-card" hidden>
+        <p class="eyebrow">MISIÓN COMPLETADA</p>
+        <h2>Felicidades Karlis, tu regalo:</h2>
+        <img class="key-image" src="./assets/game/key.jpg" alt="Imagen con la clave del regalo">
+        <p class="eshop-note">Se activa en Nintendo eShop.</p>
+        <p class="eshop-note">Que dios te bendiga</p>
+      </section>
+      <p class="fine-print">
+        También puedes jugar con las flechas del teclado.
+      </p>
+    </main>
+    <script src="./js/space-invaders.js"></script>
+  </body>
+</html>
